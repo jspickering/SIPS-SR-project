@@ -7,9 +7,9 @@ library(stringr)
 ## PARAMETERS TO CHANGE
 queries <- c('systematic review', 'meta analysis', 'search strategy', 'narrative review')
 years = 2009:2010
-user_email = 'chris@libscie.org'
+user_email = 'oliver.clark3@stu.mmu.ac.uk'
 ## read in the downloaded copy of the Google Spreadsheet
-issns <- read.csv('cr-query-issn.csv', stringsAsFactors = FALSE)
+issns <- read.csv('/Users/oliverclark/Downloads/cr-query-issn - Sheet1.csv', stringsAsFactors = FALSE)
 
 ## Do Not CHANGE BELOW
 ## OUTPUT in working folder
@@ -80,6 +80,7 @@ for ( i in 1:dim(issns)[1] ) {
             write(txt, 'doi-logfile.csv', append = TRUE)
             
             cursor <- content$message$`next-cursor`
+            
             obj_len <- length(dois)
             
             cat(sprintf('Got %s results for %s in year %s \n', length(dois), issns$journal[i], y))
@@ -87,6 +88,10 @@ for ( i in 1:dim(issns)[1] ) {
             cat('Going to next page or next query\n')
             ## add sleep
             Sys.sleep(rate_limit)
+            
+            if(is.null(cursor)){
+              rm(cursor)
+            }
         }
         
     }
